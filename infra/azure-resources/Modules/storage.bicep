@@ -5,7 +5,7 @@ param storageAccountName string
 param location string
 
 @description('The name of the container to create.')
-param containerName string = 'cin-xml'
+param containerName string = 'xml'
 
 resource storageAccount 'Microsoft.Storage/storageAccounts@2022-09-01' = {
   name: storageAccountName

@@ -30,36 +30,8 @@ param hostingPlanId string
 @description('The app settings to configure for the Function App.  This should be an array of objects with name and value properties.')
 param appSettings array = [
     {
-      name: 'XmlToJsonTopic'
-      value: 'npcx-dev-gdsn-conversion-topic'
-    }
-    {
-      name: 'XmlToJsonSubscription'
-      value: 'npcx-dev-gdsn-conversion-sub'
-    }
-    {
-      name: 'ReportingTopic'
-      value: 'npcx-dev-reporting'
-    }
-    {
-      name: 'ReportingSubscription'
-      value: 'report-sub'
-    }
-    {
-      name: 'ServiceBusConnection'
-      value: ''
-    }
-    {
-      name: 'BlobStorage_Connection'
-      value: ''
-    }
-    {
-      name: 'BlobStorage__ContainerName'
-      value: 'report'
-    }
-    {
-      name: 'Database_Command_Timeout'
-      value: '600'
+      name: 'ConfigName'
+      value: 'ConfigValue'
     }
 ]
 
@@ -67,12 +39,6 @@ param appSettings array = [
 param connectionStrings array = [
   {
     name: 'DefaultConnection'
-    value: 'tobeupdated'
-    type: 2
-    slotSetting: false
-  }
-  {
-    name: 'GtinConnection'
     value: 'tobeupdated'
     type: 2
     slotSetting: false
@@ -88,8 +54,8 @@ param appInsightsConnectionString string = ''
 ])
 param kind string = 'functionapp,linux'
 
-var generatedStorageName = toLower('${namePrefix}st${name}${environmentTag}')
-var generatedName = '${namePrefix}fa${name}${environmentTag}'
+var generatedStorageName = toLower('${namePrefix}${name}-stg')
+var generatedName = '${namePrefix}-${name}-func'
 var deploymentContainerName = 'function-releases'
 
 var combinedAppSettings = sys.concat(

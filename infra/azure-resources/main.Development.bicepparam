@@ -5,7 +5,7 @@ using 'main.bicep'
 param environmentTag = 'dev'
 param descriptionTag = 'Private Endpoint Function'
 
-param name = 'private-endpoint-func'
+param name = 'private-endpoint'
 param reserved = true
 
 param connectionStrings = [
