@@ -1,9 +1,8 @@
 @description('The value of the Environment tag.')
 @allowed([
-  'Dev'
-  'Stage'
-  'PreProd'
-  'Prod'
+  'dev'
+  'stage'
+  'prod'
 ])
 param environmentTag string
 

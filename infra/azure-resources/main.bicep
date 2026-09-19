@@ -5,18 +5,18 @@ param location string = resourceGroup().location
 
 @description('The value of the Environment tag.')
 @allowed([
-  'Dev'
-  'Stage'
-  'Prod'
+  'dev'
+  'stage'
+  'prod'
 ])
-param environmentTag string = 'Dev'
+param environmentTag string = 'dev'
 
 @description('The value of the Description tag.')
 @minLength(1)
 param descriptionTag string
 
 @description('The prefix to use for resource names.')
-param namePrefix string = 'poc'
+param namePrefix string = 'poc-'
 
 @description('The name of the Function App.')
 @minLength(1)

@@ -1,11 +1,10 @@
 @description('The value of the Environment tag.')
 @allowed([
-  'Dev'
-  'Stage'
-  'PreProd'
-  'Prod'
+  'dev'
+  'stage'
+  'prod'
 ])
-param environmentTag string = 'Dev'
+param environmentTag string = 'dev'
 
 @description('The name of the owner of the resources. This is used with the Owner tag.')
 param ownerTag string = 'BIT'

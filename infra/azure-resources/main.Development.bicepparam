@@ -2,10 +2,10 @@
 
 using 'main.bicep'
 
-param environmentTag = 'Dev'
-param descriptionTag = 'Private Function App'
+param environmentTag = 'dev'
+param descriptionTag = 'Private Endpoint Function'
 
-param name = 'MyFunctionApp'
+param name = 'private-endpoint-func'
 param reserved = true
 
 param connectionStrings = [
