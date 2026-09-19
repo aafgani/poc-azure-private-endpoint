@@ -2,11 +2,10 @@
 
 using 'main.bicep'
 
-param location = 'australiasoutheast'
 param environmentTag = 'Dev'
 param descriptionTag = 'Private Function App'
 
-param name = 'NpcxFuncApp'
+param name = 'MyFunctionApp'
 param reserved = true
 
 param connectionStrings = [

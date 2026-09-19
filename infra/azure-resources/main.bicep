@@ -16,14 +16,14 @@ param environmentTag string = 'Dev'
 param descriptionTag string
 
 @description('The prefix to use for resource names.')
-param namePrefix string = 'gs1au'
+param namePrefix string = 'poc'
 
 @description('The name of the Function App.')
 @minLength(1)
 param name string
 
 @description('The name of the resource owner.')
-param ownerTag string = 'BST'
+param ownerTag string = 'aafgani'
 
 @description('The connection strings to configure for the Function App.')
 param connectionStrings array = []
