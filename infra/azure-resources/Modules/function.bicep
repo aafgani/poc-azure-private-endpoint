@@ -54,7 +54,7 @@ param appInsightsConnectionString string = ''
 ])
 param kind string = 'functionapp,linux'
 
-var generatedStorageName = toLower('${namePrefix}${name}-stg')
+var generatedStorageName = toLower('${namePrefix}${name}stg')
 var generatedName = '${namePrefix}-${name}-func'
 var deploymentContainerName = 'function-releases'
 

@@ -32,7 +32,7 @@ param kind string = 'functionapp,linux'
 
 param reserved bool = true
 
-var generatedName = '${namePrefix}hpn${name}${environmentTag}'
+var generatedName = '${namePrefix}-${name}-plan'
 
 @description('Creates/updates a hosting plan for a web or function app.')
 resource hosting_plan 'Microsoft.Web/serverfarms@2022-09-01' = {
