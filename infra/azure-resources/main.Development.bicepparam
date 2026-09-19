@@ -5,7 +5,7 @@ using 'main.bicep'
 param environmentTag = 'dev'
 param descriptionTag = 'Private Endpoint Function'
 
-param name = 'private-link'
+param name = 'privatelink'
 param reserved = true
 
 param connectionStrings = [
