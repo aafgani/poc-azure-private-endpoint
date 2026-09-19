@@ -16,7 +16,7 @@ param environmentTag string = 'dev'
 param descriptionTag string
 
 @description('The prefix to use for resource names.')
-param namePrefix string = 'poc-'
+param namePrefix string = 'poc'
 
 @description('The name of the Function App.')
 @minLength(1)
