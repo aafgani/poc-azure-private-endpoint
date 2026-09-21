@@ -77,10 +77,6 @@ var combinedAppSettings = sys.concat(
       value: true
     }
     {
-      name: 'WEBSITE_RUN_FROM_PACKAGE'
-      value: 1
-    }
-    {
       name: 'WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED'
       value: 1
     }
