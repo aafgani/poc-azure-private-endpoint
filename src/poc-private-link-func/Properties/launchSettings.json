@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "poc_private_link_func": {
+      "commandName": "Project",
+      "commandLineArgs": "--port 7280",
+      "launchBrowser": false
+    }
+  }
+}
