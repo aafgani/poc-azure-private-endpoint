@@ -9,39 +9,39 @@ on:
         options: [Development, Staging, Production]
         default: Development
 
-permissions: 
-  id-token: write # Required for OIDC
+permissions:
+  id-token: write
   contents: read
 
 env:
-  AZURE_FUNCTIONAPP_NAME: 'poc-privatelink-func'         # Set this to your function app name on Azure 
-  AZURE_FUNCTIONAPP_PROJECT_PATH: '.'        # Set this to the path to your function app project, defaults to the repository root. The deploy action will package the contents of this path.
-  DOTNET_VERSION: '10.0.x'                   # Set this to the .NET version of your project
-  BUILD_ARTIFACT_NAME: 'released-package' 
+  AZURE_FUNCTIONAPP_NAME: 'poc-privatelink-func'
+  AZURE_FUNCTIONAPP_PROJECT_PATH: '.'
+  DOTNET_VERSION: '10.0.x'
+  BUILD_ARTIFACT_NAME: 'released-package'
 
 jobs:
   build:
-      name: Build Application
-      runs-on: ubuntu-latest
+    name: Build Application
+    runs-on: ubuntu-latest
 
-  steps:
-    - name: 'Checkout repository'
-      uses: actions/checkout@v6
+    steps:
+      - name: 'Checkout repository'
+        uses: actions/checkout@v6
 
-    - name: 'Set up .NET version: ${{ env.DOTNET_VERSION }}'
-      uses: actions/setup-dotnet@v5
-      with:
-          dotnet-version: ${{ env.DOTNET_VERSION }
+      - name: 'Set up .NET version: ${{ env.DOTNET_VERSION }}'
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
-    - name: 'Build and prepare .NET project for deployment'
-      run: dotnet publish --configuration Release --output ./output
+      - name: 'Build and prepare .NET project for deployment'
+        run: dotnet publish --configuration Release --output ./output
 
-    - name: Upload artifact for the deployment job
-      uses: actions/upload-artifact@v7
-      with:
+      - name: 'Upload artifact for the deployment job'
+        uses: actions/upload-artifact@v7
+        with:
           name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: ${{ env.AZURE_FUNCTIONAPP_PROJECT_PATH }}/output
-          include-hidden-files: true  
+          include-hidden-files: true
 
   infrastructure:
     name: Deploy Infrastructure
@@ -54,36 +54,36 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Azure login
+      - name: 'Azure login'
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
-      - name: Show Az and Bicep versions
+      - name: 'Show Az and Bicep versions'
         run: |
           az version
           az bicep version
 
-      - name: Lint Bicep
+      - name: 'Lint Bicep'
         run: |
           az bicep build \
             --file ./infra/azure-resources/main.bicep
 
-      - name: Validate template
+      - name: 'Validate template'
         run: |
           az deployment group validate \
             --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
             --parameters ./infra/azure-resources/main.${{ inputs.env }}.bicepparam
 
-      - name: What-if preview
+      - name: 'What-if preview'
         run: |
           az deployment group what-if \
             --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
             --parameters ./infra/azure-resources/main.${{ inputs.env }}.bicepparam
 
-      - name: Deploy Bicep
+      - name: 'Deploy Bicep'
         run: |
           az deployment group create \
             --resource-group "${{ vars.AZURE_RESOURCE_GROUP }}" \
@@ -93,6 +93,7 @@ jobs:
     name: Deploy Function App
     needs: infrastructure
     runs-on: ubuntu-latest
+
     environment:
       name: ${{ inputs.env }}
 
@@ -102,24 +103,17 @@ jobs:
         with:
           name: ${{ env.BUILD_ARTIFACT_NAME }}
           path: '${{ env.AZURE_FUNCTIONAPP_PROJECT_PATH }}/downloaded-artifact'
-     
+
       - name: 'Log in to Azure with AZ CLI'
-        uses: azure/login@v3
+        uses: azure/login@v2
         with:
-          client-id: ${{ vars.AZURE_CLIENT_ID }}
-          tenant-id: ${{ vars.AZURE_TENANT_ID }}
-          subscription-id: ${{ vars.AZURE_SUBSCRIPTION_ID }}
-        
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
       - name: 'Run the Azure Functions action'
         uses: Azure/functions-action@v1
         id: deploy-to-function-app
         with:
           app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
           package: '${{ env.AZURE_FUNCTIONAPP_PROJECT_PATH }}/downloaded-artifact'
-
-      - name: Azure login
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
