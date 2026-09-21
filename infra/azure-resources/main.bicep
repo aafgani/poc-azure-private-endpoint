@@ -51,6 +51,15 @@ module hostingPlanModule './Modules/hosting.bicep' = {
   }
 }
 
+  // VNET
+  module vnetModule './Modules/vnet.bicep' = {
+    name: 'vnetModule'
+    params: {
+      location: location
+      namePrefix: namePrefix
+    }
+  }
+
 // Function App
 module functionApp './Modules/function.bicep' = {
   name: 'functionApp'
