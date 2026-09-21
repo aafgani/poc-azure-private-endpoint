@@ -10,11 +10,20 @@ resource vnet 'Microsoft.Network/virtualNetworks@2024-05-01' = {
         '10.0.0.0/16'
       ]
     }
+
     subnets: [
       {
         name: 'function-integration'
         properties: {
           addressPrefix: '10.0.1.0/24'
+          delegations: [
+            {
+              name: 'functionDelegation'
+              properties: {
+                serviceName: 'Microsoft.App/environments'
+              }
+            }
+          ]
         }
       }
       {

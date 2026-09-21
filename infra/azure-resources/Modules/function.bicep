@@ -54,6 +54,9 @@ param appInsightsConnectionString string = ''
 ])
 param kind string = 'functionapp,linux'
 
+@description('Resource ID of the subnet used for Function App VNet integration.')
+param functionIntegrationSubnetId string
+
 var generatedStorageName = toLower('${namePrefix}${name}stg')
 var generatedName = '${namePrefix}-${name}-func'
 var deploymentContainerName = 'function-releases'
@@ -176,6 +179,14 @@ resource site_web 'Microsoft.Web/sites/config@2024-04-01' = {
     http20Enabled: false
     minTlsVersion: '1.2'
     scmMinTlsVersion: '1.2'
+  }
+}
+
+resource functionAppVnetIntegration 'Microsoft.Web/sites/virtualNetworkConnections@2024-04-01' = {
+  parent: functionApp
+  name: 'vnet'
+  properties: {
+    subnetResourceId: functionIntegrationSubnetId
   }
 }
 

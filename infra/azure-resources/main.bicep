@@ -51,7 +51,7 @@ module hostingPlanModule './Modules/hosting.bicep' = {
   }
 }
 
-  // VNET
+// VNET
   module vnetModule './Modules/vnet.bicep' = {
     name: 'vnetModule'
     params: {
@@ -73,5 +73,6 @@ module functionApp './Modules/function.bicep' = {
     hostingPlanId: hostingPlanModule.outputs.hostingPlanId
     connectionStrings: connectionStrings
     kind: kind
+    functionIntegrationSubnetId: vnetModule.outputs.privateEndpointSubnetId
   }
-}
+}  
